@@ -1,5 +1,6 @@
-import { action } from '@ember/object';
 import Component from '@glimmer/component';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 
 interface ButtonSignature {
   // The arguments accepted by the component
@@ -18,5 +19,17 @@ export default class ButtonComponent extends Component<ButtonSignature> {
   @action
   handleClick() {
     this.args.onClick?.();
+  }
+
+  <template>
+    <button type='button' {{on 'click' this.handleClick}}>
+      {{yield}}
+    </button>
+  </template>
+}
+
+declare module '@glint/environment-ember-loose/registry' {
+  export default interface Registry {
+    Button: typeof ButtonComponent;
   }
 }
